@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{base :: head}"></head>
+<body>
+	<div th:replace="~{base :: logo}"></div>
+	<div class="container">
+		<div th:replace="~{base :: titulo('Detalhes da Conta')}"></div>
+		
+		<div class="card mb-3" th:object="${conta}" >
+			<div class="card-header alert-dark">Conta Bancária - Número: <span th:text="${conta.contaNumero}"></span></div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col-12 mb-3 col-sm-8">
+						<div class="row h5 mb-4">
+							<div class="col">
+								Nome: <span th:text="${conta.contaNome}"></span>
+							</div>
+							<div class="col-md-auto">
+								Número da Conta/Agência: <span th:text="${conta.contaNumero}"></span> / <span th:text="${conta.agencia}"></span>
+							</div>
+						</div>
+						<div>
+							<div class="h5 mb-3">
+								Saldo: R$ <span th:text="${conta.saldo}"></span>
+							</div>
+							<div>
+								Cheque Especial: 
+								<span th:if="${conta.chequeEspecialLiberado == '1'}">Liberado</span>
+								<span th:if="${conta.chequeEspecialLiberado == '0'}">Não Liberado</span>
+							</div>
+							<div>
+								Valor Corrente (Cheque Especial): R$ <span th:text="${conta.chequeEspecial}"></span>
+							</div>
+							<div>
+								Próximo dia (Cheque Especial): R$ <span th:text="${conta.juros}"></span>
+							</div>
+							<small>Taxa de Juros: <span th:text="${conta.taxa}"></span>%</small>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<a href="/home"><button type="button" class="btn btn-outline-secondary">Voltar</button></a>
+	</div>
+</body>
+</html>

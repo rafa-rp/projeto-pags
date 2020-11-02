@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{base :: head}"></head>
+<body>
+	<div th:replace="~{base :: logo}"></div>
+	<div class="container">
+		<div th:replace="~{base :: titulo('Contas Bancárias')}"></div>
+
+		<nav
+			class="navbar navbar-expand navbar-light bg-light mb-3 d-flex justify-content-between">
+			<form th:action="@{/detalhe/numero}" class="form-inline my-2 my-lg-0" method="POST">
+				<div>
+					<input name="contaNumero" class="form-control mr-sm-2" placeholder="Número da Conta">
+					<button class="btn btn-info my-2 my-sm-0" type="submit">Procurar</button>
+					<small class="form-text text-muted">Busca por detalhes da Conta</small>
+				</div>
+			</form>
+			<form th:action="@{/home}" class="form-inline my-2 my-lg-0">
+				<div>
+					<input th:name="filtro" th:value="${filtro}" class="form-control mr-sm-2" type="search" placeholder="Nome/Agência/Cheque" aria-label="Search">
+					<button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Filtrar</button>
+					<small class="form-text text-muted">Obs: (1-Liberado / 0-Não Liberado)</small>
+				</div>
+			</form>
+			<a href="/conta/formulario"><button class="btn btn-outline-secondary my-2 my-sm-0">Nova Conta</button></a>
+		</nav>
+
+		<div class="table-responsive col-md-12">
+			<table class="table table-striped" cellspacing="0" cellpadding="0">
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th>Agência</th>
+						<th>Cheque Especial</th>
+						<th class="actions">Ações</th>
+					</tr>
+				</thead>
+				<tbody th:each="conta : ${contas}">
+					<tr>
+						<td th:text="${conta.contaNome}">Nome</td>
+						<td th:text="${conta.agencia}">Agência</td>
+						<td th:if="${conta.chequeEspecialLiberado == '1'}">Liberado</td>
+						<td th:if="${conta.chequeEspecialLiberado == '0'}">Não Liberado</td>
+						<td class="actions">
+							<a class="btn btn-outline-success" th:href="@{/detalhe/{id}(id=${conta.id})}">Visualizar</a> 
+							<a class="btn btn-outline-warning" th:href="@{/editar/{id}(id=${conta.id})}">Editar</a> 
+							<a class="btn btn-outline-danger" th:href="@{/delete/{id}(id=${conta.id})}">Excluir</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<nav aria-label="Pagination" th:if="${contas.totalPages gt 0}">
+			<ul class="pagination justify-content-center font-weight-bold">
+				<li class="page-item"
+					th:classappend="${contas.number eq 0} ? 'disabled'"><a
+					class="page-link"
+					th:href="@{/home?page={id}(id=${contas.number lt 2 ? 1 : contas.number})}"
+					aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+						<span aria-hidden="true">&laquo;</span>
+				</a></li>
+				<li class="page-item"
+					th:classappend="${i eq contas.number + 1} ? 'active'"
+					th:each="i : ${#numbers.sequence( 1, contas.totalPages, 1)}">
+					<a class="page-link" th:href="@{/home?page={id}(id=${i})}"
+					th:text="${i}" th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+				</li>
+				<li class="page-item"
+					th:classappend="${contas.number + 1 eq contas.totalPages} ? 'disabled'">
+					<a class="page-link"
+					th:href="@{/home?page={id}(id=${contas.number + 2})}"
+					aria-label="Next" title="Next Page" data-toggle="tooltip"> <span
+						aria-hidden="true">&raquo;</span>
+				</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</body>
+</html>

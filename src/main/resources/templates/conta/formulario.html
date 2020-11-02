@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{base :: head}"></head>
+<body>
+	<div th:replace="~{base :: logo}"></div>
+	<div class="container">
+		<div th:replace="~{base :: titulo('Cadastro Nova Conta')}"></div>
+
+		<form th:action="@{/conta/nova}" th:object="${requisicaoNovaConta}" method="POST">
+			<div class="form-group">
+				<label for="contaNome">Nome</label> 
+				<input th:field="*{contaNome}" class="form-control" th:errorclass="is-invalid" placeholder="Insira o Nome do Titular">
+				<div class="invalid-feedback" th:errors="*{contaNome}" >Erro do nome da Conta</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="contaNumero">Número da Conta</label> 
+					<input th:field="*{contaNumero}" class="form-control" th:errorclass="is-invalid" placeholder="Insira o Número da Conta">
+					<div class="invalid-feedback" th:errors="*{contaNumero}" >Erro do número da Conta</div>
+				</div>
+				<div class="form-group col-md-6">
+					<label for="agencia">Agência</label> 
+					<input th:field="*{agencia}" class="form-control" th:errorclass="is-invalid" placeholder="Insira o Número da Agência">
+					<div class="invalid-feedback" th:errors="*{agencia}" >Erro do número da Agência</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="saldo">Saldo</label> 
+				<input th:field="*{saldo}" class="form-control" th:errorclass="is-invalid" placeholder="Saldo da Conta ex:135.50">
+				<div class="invalid-feedback" th:errors="*{saldo}" >Erro de saldo</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-4">
+					<label for="chequeEspecialLiberado">Cheque Especial</label> 
+					<select th:field="*{chequeEspecialLiberado}" class="form-control">
+						<option th:value="'1'" th:text="Liberado"></option>
+						<option th:value="'0'" th:text="NãoLiberado"></option>
+					</select>
+				</div>
+				<div class="form-group col-md-6">
+					<label for="chequeEspecial">Valor (Cheque Especial)</label> 
+					<input th:field="*{chequeEspecial}" class="form-control" th:errorclass="is-invalid" placeholder="Saldo em Cheque Especial ex:100.50">
+					<div class="invalid-feedback" th:errors="*{chequeEspecial}" >Erro de valor</div>
+				</div>
+				<div class="form-group col-md-4">
+					<label for="taxa">Taxa</label> 
+					<input th:field="*{taxa}" class="form-control" th:errorclass="is-invalid" placeholder="Valor da Taxa ex:1.99">
+					<div class="invalid-feedback" th:errors="*{taxa}" >Erro taxa não informada</div>
+				</div>
+			</div>
+			<div class="form-row mb-3">
+				<button type="submit" class="btn btn-primary">Cadastrar</button>
+				<a class="btn btn-outline-secondary ml-4" href="/home">Voltar</a>
+			</div>
+		</form>
+		
+	</div>
+</body>
+</html>
